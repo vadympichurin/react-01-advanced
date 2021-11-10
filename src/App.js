@@ -1,22 +1,24 @@
-import React from "react";
+import React, { Component } from "react";
+import Counter from "./components/Counter/Counter";
+import Dropdown from "./components/Dropdown/Dropdown";
+import ColorPicker from "./components/ColorPicker/ColorPicker";
 
-import Painting from "./components/Painting";
-import paints from "./paintings.json";
+const colorPickerOptions = [
+  { label: "red", color: "#F44336" },
+  { label: "green", color: "#4CAF50" },
+  { label: "blue", color: "#2196F3" },
+  { label: "grey", color: "#607D8B" },
+  { label: "pink", color: "#E91E63" },
+  { label: "indigo", color: "#3F51B5" },
+];
 
-const App = () => {
-  return (
-    paints &&
-    paints.map((paint) => (
-      <Painting
-        url={paint.url}
-        title={paint.title}
-        price={paint.price}
-        author={paint.author.tag}
-        tag={paint.author.url}
-        key={paint.id}
-      />
-    ))
-  );
-};
+const App = () => (
+  <>
+    {/* <h1>Состояние компонента</h1> */}
+    {/* <Counter initialValue={10} /> */}
+    <ColorPicker options={colorPickerOptions} />
+    {/* <Dropdown/> */}
+  </>
+);
 
 export default App;
