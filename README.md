@@ -1,4 +1,3 @@
-# react-18
 
 - Компоненты-классы: class, extends, constructor(), render()
 - События:
