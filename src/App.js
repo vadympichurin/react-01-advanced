@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
-import Form from "./components/Form/Form";
+import ToDoList from "./components/TodoList/TodoList";
+import initialTodos from "./todos.json";
+// import Form from "./components/Form/Form";
 // import Counter from "./components/Counter/Counter";
 // import Dropdown from "./components/Dropdown/Dropdown";
 // import ColorPicker from "./components/ColorPicker/ColorPicker";
@@ -15,18 +17,48 @@ import Form from "./components/Form/Form";
 // ];
 
 class App extends Component {
+  state = {
+    todos: initialTodos, // array []
+  };
 
-  onFormSubmit = data => {
-    console.log('data : ', data);
-  }
+  deleteTodoHandler = (id) => {
+    this.setState((prevState) => ({
+      todos: prevState.todos.filter((todo) => todo.id !== id),
+    }));
+  };
+
+  toggleCompleted = (todoId) => {
+
+    // this.setState(prevState => ({
+    //   todos: prevState.todos.map(todo => {
+    //     if(todo.id === todoId){
+    //       return {
+    //         ...todo,
+    //         completed: !todo.completed,
+    //       }
+    //     }
+
+    //     return todo;
+    //   })
+    // }));
+
+    this.setState(({ todos }) => ({
+      todos: todos.map(todo => 
+        todo.id === todoId ? {...todo, completed: !todo.completed} : todo)
+    }))
+  };
 
   render() {
+    const { todos } = this.state;
+
     return (
       <>
-        <Form onFormSubmit={this.onFormSubmit}/>
-        <Form onFormSubmit={this.onFormSubmit}/>
-
-
+        <ToDoList
+          todos={todos}
+          onDeleteTodo={this.deleteTodoHandler}
+          toggleCompleted={this.toggleCompleted}
+        />
+        {/* <Form onFormSubmit={this.onFormSubmit}/> */}
         {/* <h1>Состояние компонента</h1> */}
         {/* <Counter initialValue={10} /> */}
         {/* <ColorPicker options={colorPickerOptions} /> */}

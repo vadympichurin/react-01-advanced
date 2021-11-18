@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import classNames from "classnames";
+
 import "./ColorPicker.css";
 
 class ColorPicker extends Component {
@@ -6,22 +8,25 @@ class ColorPicker extends Component {
     activeOptionIndex: 2,
   };
 
-  setActiveIndx = index => {
-    this.setState({ activeOptionIndex: index })
-  }
+  setActiveIndx = (index) => {
+    this.setState({ activeOptionIndex: index });
+  };
 
   makeOptionClassNames = (index) => {
-    const optionClass = ["ColorPicker__option"];
+    // const optionClass = ["ColorPicker__option"];
 
-    if (index === this.state.activeOptionIndex) {
-      optionClass.push("ColorPicker__option--active");
-    }
+    // if (index === this.state.activeOptionIndex) {
+    //   optionClass.push("ColorPicker__option--active");
+    // }
 
-    return optionClass.join(" "); // "ColorPicker__option ColorPicker__option--active"
+    // return optionClass.join(" "); // "ColorPicker__option ColorPicker__option--active"
+
+    return classNames("ColorPicker__option", {
+      "ColorPicker__option--active": index === this.state.activeOptionIndex,
+    });
   };
 
   render() {
-
     const { activeOptionIndex } = this.state;
     const { options } = this.props;
     const { label } = options[activeOptionIndex];
@@ -35,7 +40,9 @@ class ColorPicker extends Component {
             return (
               <button
                 key={label}
-                className={this.makeOptionClassNames(index)} 
+                className={classNames("ColorPicker__option", {
+                  "ColorPicker__option--active": index === this.state.activeOptionIndex,
+                })}
                 style={{
                   backgroundColor: color,
                 }}

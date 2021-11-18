@@ -6,12 +6,20 @@ class Form extends Component {
     name: "",
     email: "",
     age: "",
+    experience: "junior",
+    license: false,
   };
 
   handleInputChange = (event) => {
     this.setState({
       [event.currentTarget.name]: event.currentTarget.value,
     });
+  };
+
+  handleLicenseChange = () => {
+    this.setState((prevState) => ({
+      license: !prevState.license,
+    }));
   };
 
   nameId = shortid.generate();
@@ -29,6 +37,8 @@ class Form extends Component {
       name: "",
       email: "",
       age: "",
+      experience: "junior",
+      license: false,
     });
   };
 
@@ -49,7 +59,7 @@ class Form extends Component {
         <label htmlFor={this.emailId}>
           Пошта :
           <input
-          id={this.emailId}
+            id={this.emailId}
             name="email"
             type="email"
             value={this.state.email}
@@ -71,7 +81,52 @@ class Form extends Component {
         <br />
         <br />
 
-        <button type="submit">Submit</button>
+        <p>Ваш рівень:</p>
+        <label>
+          <input
+            type="radio"
+            name="experience"
+            value="junior"
+            checked={this.state.experience === "junior"}
+            onChange={this.handleInputChange}
+          />
+          Junior
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="experience"
+            value="middle"
+            checked={this.state.experience === "middle"}
+            onChange={this.handleInputChange}
+          />
+          Middle
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="experience"
+            value="senior"
+            checked={this.state.experience === "senior"}
+            onChange={this.handleInputChange}
+          />
+          Senior
+        </label>
+
+        <br />
+        <br />
+        <label>
+          <input
+            type="checkbox"
+            name="license"
+            checked={this.state.license}
+            onChange={this.handleLicenseChange}
+          />
+          Згоден з умовами користування
+        </label>
+        <button type="submit" disabled={!this.state.license}>
+          Submit
+        </button>
       </form>
     );
   }
