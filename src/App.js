@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import shortid from "shortid";
 
 import ToDoList from "./components/TodoList/TodoList";
 import initialTodos from "./todos.json";
+import TodoEditor from "./components/TodoEditor/TodoEditor";
+import Filter from "./components/Filter/Filter";
 // import Form from "./components/Form/Form";
 // import Counter from "./components/Counter/Counter";
 // import Dropdown from "./components/Dropdown/Dropdown";
@@ -19,6 +22,7 @@ import initialTodos from "./todos.json";
 class App extends Component {
   state = {
     todos: initialTodos, // array []
+    filter: "",
   };
 
   deleteTodoHandler = (id) => {
@@ -28,7 +32,6 @@ class App extends Component {
   };
 
   toggleCompleted = (todoId) => {
-
     // this.setState(prevState => ({
     //   todos: prevState.todos.map(todo => {
     //     if(todo.id === todoId){
@@ -43,18 +46,68 @@ class App extends Component {
     // }));
 
     this.setState(({ todos }) => ({
-      todos: todos.map(todo => 
-        todo.id === todoId ? {...todo, completed: !todo.completed} : todo)
-    }))
+      todos: todos.map((todo) =>
+        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
+      ),
+    }));
+  };
+
+  addTodo = (text) => {
+    const todo = {
+      id: shortid.generate(),
+      text,
+      completed: false,
+    };
+
+    this.setState((prevState) => ({
+      todos: [todo, ...prevState.todos],
+    }));
+  };
+
+  chnageFilter = (e) => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+  getFilteredTodos = () => {
+    const { todos, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+
+    return todos.filter((todo) =>
+      todo.text.toLowerCase().includes(normalizedFilter)
+    );
   };
 
   render() {
-    const { todos } = this.state;
+    const { todos, filter } = this.state;
+
+    // const completedTodos = todos.filter(todo => todo.completed);
+    const completedTodos = todos.reduce(
+      (acc, todo) => (todo.completed ? acc + 1 : acc),
+      0
+    );
+
+    const totalTodos = todos.length;
+    const filteredTodos = this.getFilteredTodos();
 
     return (
       <>
+        <div>
+          <p>Загальна кількість: {totalTodos} </p>
+          <p>Кількість виконаних: {completedTodos}</p>
+        </div>
+
+        <TodoEditor onSubmit={this.addTodo} />
+
+        <br />
+        <br />
+        <br />
+
+        <Filter value={filter} onChange={this.chnageFilter} />
+        <br />
+        <br />
+
         <ToDoList
-          todos={todos}
+          todos={filteredTodos}
           onDeleteTodo={this.deleteTodoHandler}
           toggleCompleted={this.toggleCompleted}
         />
