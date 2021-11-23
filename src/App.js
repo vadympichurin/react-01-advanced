@@ -21,9 +21,29 @@ import Filter from "./components/Filter/Filter";
 
 class App extends Component {
   state = {
-    todos: initialTodos, // array []
+    todos: [],
     filter: "",
   };
+
+  componentDidMount() {
+    console.log("App componentDidMount");
+    const todos = localStorage.getItem("todos");
+    const parsedTodos = JSON.parse(todos);
+
+    if(parsedTodos){
+      this.setState({ todos: parsedTodos })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("App componentDidUpdate");
+
+    if(this.state.todos !== prevState.todos){
+      console.log("Оновилося поле todos");
+
+      localStorage.setItem('todos', JSON.stringify(this.state.todos));
+    }
+  }
 
   deleteTodoHandler = (id) => {
     this.setState((prevState) => ({
@@ -31,6 +51,7 @@ class App extends Component {
     }));
   };
 
+  
   toggleCompleted = (todoId) => {
     // this.setState(prevState => ({
     //   todos: prevState.todos.map(todo => {
@@ -88,6 +109,8 @@ class App extends Component {
 
     const totalTodos = todos.length;
     const filteredTodos = this.getFilteredTodos();
+
+    console.log("App render");
 
     return (
       <>
