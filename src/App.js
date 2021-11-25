@@ -5,6 +5,15 @@ import ToDoList from "./components/TodoList/TodoList";
 import initialTodos from "./todos.json";
 import TodoEditor from "./components/TodoEditor/TodoEditor";
 import Filter from "./components/Filter/Filter";
+import Modal from "./components/Modal/Modal";
+import Clock from "./components/Clock/Clock";
+import Tabs from "./components/Tabs/Tabs";
+import tabItems from "./tabs.json";
+
+import Fox from "./static/images/fox.webp";
+
+// <Fox  />
+
 // import Form from "./components/Form/Form";
 // import Counter from "./components/Counter/Counter";
 // import Dropdown from "./components/Dropdown/Dropdown";
@@ -23,25 +32,26 @@ class App extends Component {
   state = {
     todos: [],
     filter: "",
+    showModal: false,
   };
 
   componentDidMount() {
-    console.log("App componentDidMount");
+    // console.log("App componentDidMount");
     const todos = localStorage.getItem("todos");
     const parsedTodos = JSON.parse(todos);
 
-    if(parsedTodos){
-      this.setState({ todos: parsedTodos })
+    if (parsedTodos) {
+      this.setState({ todos: parsedTodos });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("App componentDidUpdate");
+    // console.log("App componentDidUpdate");
 
-    if(this.state.todos !== prevState.todos){
-      console.log("Оновилося поле todos");
+    if (this.state.todos !== prevState.todos) {
+      // console.log("Оновилося поле todos");
 
-      localStorage.setItem('todos', JSON.stringify(this.state.todos));
+      localStorage.setItem("todos", JSON.stringify(this.state.todos));
     }
   }
 
@@ -51,21 +61,7 @@ class App extends Component {
     }));
   };
 
-  
   toggleCompleted = (todoId) => {
-    // this.setState(prevState => ({
-    //   todos: prevState.todos.map(todo => {
-    //     if(todo.id === todoId){
-    //       return {
-    //         ...todo,
-    //         completed: !todo.completed,
-    //       }
-    //     }
-
-    //     return todo;
-    //   })
-    // }));
-
     this.setState(({ todos }) => ({
       todos: todos.map((todo) =>
         todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
@@ -98,8 +94,14 @@ class App extends Component {
     );
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   render() {
-    const { todos, filter } = this.state;
+    const { todos, filter, showModal } = this.state;
 
     // const completedTodos = todos.filter(todo => todo.completed);
     const completedTodos = todos.reduce(
@@ -110,10 +112,35 @@ class App extends Component {
     const totalTodos = todos.length;
     const filteredTodos = this.getFilteredTodos();
 
-    console.log("App render");
+    // console.log("App render");
 
     return (
       <>
+
+      <Tabs items={tabItems} />
+
+      {showModal && <Clock />}
+        <button type="button" onClick={this.toggleModal}>
+          Open modal
+        </button>
+
+        {
+        // showModal && (
+        //   <Modal onClose={this.toggleModal}>
+        //     <p>
+        //       Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam
+        //       accusantium amet enim sapiente reprehenderit, rem unde debitis
+        //       odio perspiciatis. Nisi veritatis nemo error quam rem!
+        //     </p>
+        //     <img src={Fox} alt="picture"/>
+        //     {/* <Fox /> */}
+        //     <button type="button" onClick={this.toggleModal}>
+        //       Close modal
+        //     </button>
+        //   </Modal>
+        // )
+        } 
+
         <div>
           <p>Загальна кількість: {totalTodos} </p>
           <p>Кількість виконаних: {completedTodos}</p>
@@ -134,6 +161,7 @@ class App extends Component {
           onDeleteTodo={this.deleteTodoHandler}
           toggleCompleted={this.toggleCompleted}
         />
+
         {/* <Form onFormSubmit={this.onFormSubmit}/> */}
         {/* <h1>Состояние компонента</h1> */}
         {/* <Counter initialValue={10} /> */}
