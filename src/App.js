@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import shortid from "shortid";
 
 import ToDoList from "./components/TodoList/TodoList";
-import initialTodos from "./todos.json";
+// import initialTodos from "./todos.json";
 import TodoEditor from "./components/TodoEditor/TodoEditor";
 import Filter from "./components/Filter/Filter";
 import Modal from "./components/Modal/Modal";
-import Clock from "./components/Clock/Clock";
-import Tabs from "./components/Tabs/Tabs";
-import tabItems from "./tabs.json";
+// import Clock from "./components/Clock/Clock";
+// import Tabs from "./components/Tabs/Tabs";
+// import tabItems from "./tabs.json";
+import IconButton from "./components/IconButton/IconButton";
 
 import Fox from "./static/images/fox.webp";
 
@@ -36,7 +37,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // console.log("App componentDidMount");
     const todos = localStorage.getItem("todos");
     const parsedTodos = JSON.parse(todos);
 
@@ -46,12 +46,15 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log("App componentDidUpdate");
-
     if (this.state.todos !== prevState.todos) {
-      // console.log("Оновилося поле todos");
-
       localStorage.setItem("todos", JSON.stringify(this.state.todos));
+    }
+
+    if (
+      this.state.todos.length > prevState.todos.length &&
+      prevState.todos.length !== 0
+    ) {
+      this.toggleModal();
     }
   }
 
@@ -79,6 +82,8 @@ class App extends Component {
     this.setState((prevState) => ({
       todos: [todo, ...prevState.todos],
     }));
+
+    // this.toggleModal();
   };
 
   chnageFilter = (e) => {
@@ -116,37 +121,27 @@ class App extends Component {
 
     return (
       <>
+        {/* <Tabs items={tabItems} /> */}
 
-      <Tabs items={tabItems} />
+        {/* {showModal && <Clock />} */}
 
-      {showModal && <Clock />}
-        <button type="button" onClick={this.toggleModal}>
+        <IconButton type="button" onClick={this.toggleModal}>
           Open modal
-        </button>
+        </IconButton>
 
-        {
-        // showModal && (
-        //   <Modal onClose={this.toggleModal}>
-        //     <p>
-        //       Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        //       accusantium amet enim sapiente reprehenderit, rem unde debitis
-        //       odio perspiciatis. Nisi veritatis nemo error quam rem!
-        //     </p>
-        //     <img src={Fox} alt="picture"/>
-        //     {/* <Fox /> */}
-        //     <button type="button" onClick={this.toggleModal}>
-        //       Close modal
-        //     </button>
-        //   </Modal>
-        // )
-        } 
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <TodoEditor onSubmit={this.addTodo} />
+            <button type="button" onClick={this.toggleModal}>
+              Close modal
+            </button>
+          </Modal>
+        )}
 
         <div>
           <p>Загальна кількість: {totalTodos} </p>
           <p>Кількість виконаних: {completedTodos}</p>
         </div>
-
-        <TodoEditor onSubmit={this.addTodo} />
 
         <br />
         <br />
