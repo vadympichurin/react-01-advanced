@@ -1,7 +1,12 @@
 import React, { Component } from "react";
+import { Route, Routes, Link, NavLink } from "react-router-dom";
 
-import TodoPage from "./pages/Todos/TodosPage";
-import ArticlesPage from "./pages/Articles/Articles";
+import Home from "./pages/Home";
+import Books from "./pages/Books";
+import Authors from "./pages/Authors";
+import NotFound from "./pages/NotFound";
+
+import "./styles/base.css";
 
 class App extends Component {
   state = {};
@@ -9,11 +14,50 @@ class App extends Component {
   render() {
     return (
       <>
-        {/* <TodoPage /> */}
-        <ArticlesPage />
+        <ul>
+          <li>
+            <NavLink
+              to="/"
+              className={(navData) =>
+                navData.isActive ? "NavLink--active" : "NavLink"
+              }
+            >
+              home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/books"
+              className={(navData) =>
+                navData.isActive ? "NavLink--active" : "NavLink"
+              }
+            >
+              books
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/authors"
+              className={(navData) =>
+                navData.isActive ? "NavLink--active" : "NavLink"
+              }
+            >
+              authors
+            </NavLink>
+          </li>
+        </ul>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/books" element={<Books />} />
+          <Route path="/authors" element={<Authors />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </>
     );
   }
 }
 
 export default App;
+
+//   http://localhost:3001/

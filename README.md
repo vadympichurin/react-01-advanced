@@ -1,17 +1,10 @@
-- [Жизненный цикл компонент-классов](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
-- Методы жизненного цикла.
-- Сохранение коллекции заметок в localStorage (componentDidMount и
-  componentDidUpdate)
-- Модальное окно (componentDidMount и componentWillUnmount)
-  - Проблема z-index, как решать без костылей (порталы)
-  - Слушатель на keydown для Escape
-  - Слушатель на клик по Backdrop
-- Таймер и утечка памяти с setState() без componentWillUnmount
-- Табы (shouldComponentUpdate)
-  - аналогия с колорпикером = главное знать технику
-  - убираем лишние рендеры после setState
-  
-- Рефакторим заметки
-  - Выносим туду в отдельный компонент
-  - Кнопка-иконка и импорт SVG как ReactComponent
-  - Убираем редактор в модальное окно
+
+- Концепция SPA (Single Page Application)
+- Структура url-строки и HTML5 History API. Библиотека history
+- Компоненты BrowserRouter и Route
+- Обработка 404 c Redirect => 
+- Компонент Switch => Router
+- Компоненты навигации: Link и NavLink
+- Вложенные рауты и навигация: match.url и match.path
+- Пропсы match, location, history
+- Динамические URL-параметры
