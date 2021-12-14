@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { Route, Routes, Link, NavLink } from "react-router-dom";
+import { Route, Routes, NavLink } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Books from "./pages/Books";
 import Authors from "./pages/Authors";
 import NotFound from "./pages/NotFound";
+import BookDetails from "./pages/BookDetails";
+import AuthorBooks from "./components/AuthorBooks";
 
 import "./styles/base.css";
 
@@ -50,7 +52,10 @@ class App extends Component {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/books" element={<Books />} />
-          <Route path="/authors" element={<Authors />} />
+          <Route path="/books/:bookId" element={<BookDetails />} />
+          <Route path="/authors" element={<Authors />}>
+            <Route path=":authorId" element={<AuthorBooks />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </>

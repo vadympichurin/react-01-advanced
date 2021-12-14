@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 class Books extends Component {
   state = {
@@ -24,7 +25,9 @@ class Books extends Component {
         <h1>Books page</h1>
         <ul>
           {books.map((book) => (
-            <li key={book.id}>{book.title}</li>
+            <li key={book.id}>
+              <Link to={`/books/${book.id}`} >{book.title}</Link>
+            </li>
           ))}
         </ul>
       </>
