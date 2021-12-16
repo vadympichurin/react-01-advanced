@@ -7,6 +7,8 @@ import Authors from "./pages/Authors";
 import NotFound from "./pages/NotFound";
 import BookDetails from "./pages/BookDetails";
 import AuthorBooks from "./components/AuthorBooks";
+import Header from "./components/Header";
+import routes from "./utils/routes";
 
 import "./styles/base.css";
 
@@ -14,47 +16,19 @@ class App extends Component {
   state = {};
 
   render() {
+    const { home, books, bookDetails, authors, authorBooks } = routes;
+
     return (
       <>
-        <ul>
-          <li>
-            <NavLink
-              to="/"
-              className={(navData) =>
-                navData.isActive ? "NavLink--active" : "NavLink"
-              }
-            >
-              home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/books"
-              className={(navData) =>
-                navData.isActive ? "NavLink--active" : "NavLink"
-              }
-            >
-              books
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/authors"
-              className={(navData) =>
-                navData.isActive ? "NavLink--active" : "NavLink"
-              }
-            >
-              authors
-            </NavLink>
-          </li>
-        </ul>
+       
+       <Header />
 
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/books" element={<Books />} />
-          <Route path="/books/:bookId" element={<BookDetails />} />
-          <Route path="/authors" element={<Authors />}>
-            <Route path=":authorId" element={<AuthorBooks />} />
+          <Route path={home} element={<Home />} />
+          <Route path={books} element={<Books />} />
+          <Route path={bookDetails} element={<BookDetails />} />
+          <Route path={authors} element={<Authors />}>
+            <Route path={authorBooks} element={<AuthorBooks />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

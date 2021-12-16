@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+import BooksList from "../components/BooksList";
+
 class Books extends Component {
   state = {
     books: [],
@@ -11,7 +13,7 @@ class Books extends Component {
     const response = await axios
       .get("http://localhost:3000/books")
       .then((res) => res.data);
-      
+
     this.setState({
       books: response,
     });
@@ -23,13 +25,7 @@ class Books extends Component {
     return (
       <>
         <h1>Books page</h1>
-        <ul>
-          {books.map((book) => (
-            <li key={book.id}>
-              <Link to={`/books/${book.id}`} >{book.title}</Link>
-            </li>
-          ))}
-        </ul>
+        <BooksList books={books} />
       </>
     );
   }

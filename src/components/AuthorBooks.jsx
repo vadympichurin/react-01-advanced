@@ -2,15 +2,16 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 
-const AuthorBooks = () => {
+import BooksList from "./BooksList";
 
-  const [authorBooks, setAuthorBooks] = useState(null);
+const AuthorBooks = () => {
+  const [authorBooks, setAuthorBooks] = useState([]);
   const { authorId } = useParams();
 
-  const test = useOutletContext();
-  console.log("test : ", test);
+  // const test = useOutletContext();
+  // console.log("test : ", test);
 
-  console.log("authorBooks : ", authorBooks);
+  // console.log("authorBooks : ", authorBooks);
 
   useEffect(() => {
     const getAuthorBooks = async () => {
@@ -23,17 +24,13 @@ const AuthorBooks = () => {
     getAuthorBooks();
   }, [authorId]);
 
+  // console.log("authorBooks : ", authorBooks);
+
   return (
     <>
       <h2>Author books component</h2>
-      {authorBooks?.books.map((book) => (
-        <>
-          <img src={book?.imgUrl} alt={book?.title} />
-          <h2>{book?.title}</h2>
-          <p>{book?.descr}</p>
-          <h5>{book?.genre}</h5>
-        </>
-      ))}
+
+      <BooksList books={authorBooks.books} />
     </>
   );
 };
