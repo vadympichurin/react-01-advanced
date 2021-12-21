@@ -14,3 +14,4 @@ Code splitting
 - написати `AppBar.js` та `Navigation`;
 - написати `BookList` and `Book`;
 - зробити кнопку `GoBack`;
+- Suspence, Lazy
