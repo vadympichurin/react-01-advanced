@@ -4,4 +4,5 @@ export default {
     bookDetails: "/books/:bookId",
     authors: "/authors",
     authorBooks: ":authorId",
+    counter: "/counter",
 }

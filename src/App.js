@@ -1,8 +1,9 @@
 import React, { Component, Suspense, lazy } from "react";
-import { Route, Routes, NavLink } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header";
 import routes from "./utils/routes";
+import CounterView from "./pages/CounterView";
 
 import "./styles/base.css";
 
@@ -17,7 +18,7 @@ class App extends Component {
   state = {};
 
   render() {
-    const { home, books, bookDetails, authors, authorBooks } = routes;
+    const { home, books, bookDetails, authors, authorBooks, counter } = routes;
 
     return (
       <>
@@ -31,6 +32,7 @@ class App extends Component {
             <Route path={authors} element={<Authors />}>
               <Route path={authorBooks} element={<AuthorBooks />} />
             </Route>
+            <Route path={counter} element={<CounterView />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

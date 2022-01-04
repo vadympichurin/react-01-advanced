@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { NavLink, Outlet } from "react-router-dom";
-import AuthorBooks from "../components/AuthorBooks";
+// import AuthorBooks from "../components/AuthorBooks";
 
 class Authors extends React.Component {
   state = {

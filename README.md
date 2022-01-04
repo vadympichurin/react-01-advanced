@@ -1,17 +1,14 @@
+# Redux
 
-- Концепция SPA (Single Page Application)
-- Структура url-строки и HTML5 History API. Библиотека history
-- Компоненты BrowserRouter и Route
-- Обработка 404 c Redirect => 
-- Компонент Switch => Router
-- Компоненты навигации: Link и NavLink
-<!-- - Вложенные рауты и навигация: match.url и match.path -->
-<!-- - Пропсы match, location, history -->
-- Динамические URL-параметры
+- + Основные концепции: store, state, actions, action creators, reducers
+- Feature based структура файлов и папок
+  - Создаём и настраиваем хранилище (store)
+  - Готовим экшены (действия, actions) и фабрики
+  - Пишем редюсер
+- Связываем компоненты и хранилище.
+  - Пакет react-redux.
+  - Компонент Provider
+  - Функция connect(mapStateToProps, mapDispatchToProps)
+- Redux DevTools
+- Композиция редюсеров с combineReducers
 
-Code splitting 
-- додати `routes.js`, для рефактору маршрутів;
-- написати `AppBar.js` та `Navigation`;
-- написати `BookList` and `Book`;
-- зробити кнопку `GoBack`;
-- Suspence, Lazy

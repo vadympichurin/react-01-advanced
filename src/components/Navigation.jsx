@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import routes from "../utils/routes";
 
 const Navigation = () => {
-  const { home, authors, books } = routes;
+  const { home, authors, books, counter } = routes;
 
   return (
     <nav>
@@ -37,6 +37,16 @@ const Navigation = () => {
             }
           >
             authors
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to={counter}
+            className={(navData) =>
+              navData.isActive ? "NavLink--active" : "NavLink"
+            }
+          >
+            counter
           </NavLink>
         </li>
       </ul>
