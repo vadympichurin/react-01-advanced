@@ -1,42 +1,14 @@
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
-const initialState = {
-  counter: {
-    value: 0,
-    step: 5,
-  },
-  user: {},
-  contacts: {},
-  preferences: {},
-};
+import counterReducer from "./counter/counter-reducer";
+import todosReducer from "./todos/todos-reducer";
 
-const reducer = (state = initialState, action) => {
-  console.log(action);
+const rootReducer = combineReducers({
+  counter: counterReducer,
+  todos: todosReducer,
+});
 
-  switch (action.type) {
-    case "counter/increment":
-      return {
-        ...state,
-        counter: {
-          ...state.counter,
-          value: state.counter.value + action.payload,
-        },
-      };
-
-    case "counter/decrement":
-      return {
-        ...state,
-        counter: {
-          ...state.counter,
-          value: state.counter.value - action.payload,
-        },
-      };
-
-    default:
-      return state;
-  }
-};
-
-const store = createStore(reducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 export default store;

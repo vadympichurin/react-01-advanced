@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 
 import App from "./App";
 import store from "./redux/store";
-import { increment, decrement, test } from "./redux/actions";
 import "modern-normalize/modern-normalize.css";
 import "./styles.css";
 

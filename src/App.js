@@ -4,8 +4,10 @@ import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import routes from "./utils/routes";
 import CounterView from "./pages/CounterView";
+import TodosPage from './pages/Todos/TodosPage';
 
 import "./styles/base.css";
+import TodoPage from "./pages/Todos/TodosPage";
 
 const Home = lazy(() => import("./pages/Home" /* webpackChunkName: 'home-page' */));
 const Books = lazy(() => import("./pages/Books" /* webpackChunkName: 'books-page' */));
@@ -18,7 +20,7 @@ class App extends Component {
   state = {};
 
   render() {
-    const { home, books, bookDetails, authors, authorBooks, counter } = routes;
+    const { home, books, bookDetails, authors, authorBooks, counter, todos } = routes;
 
     return (
       <>
@@ -33,6 +35,7 @@ class App extends Component {
               <Route path={authorBooks} element={<AuthorBooks />} />
             </Route>
             <Route path={counter} element={<CounterView />} />
+            <Route path={todos} element={<TodosPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

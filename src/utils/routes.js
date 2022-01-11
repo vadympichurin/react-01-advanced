@@ -5,4 +5,5 @@ export default {
     authors: "/authors",
     authorBooks: ":authorId",
     counter: "/counter",
+    todos: '/todos',
 }
