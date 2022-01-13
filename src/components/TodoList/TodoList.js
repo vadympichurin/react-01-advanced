@@ -22,13 +22,30 @@ const ToDoList = ({ todos, onDeleteTodo, toggleCompleted }) => (
   </ul>
 );
 
+const getFilteredTodos = (allTodos, filter) => {
+  const normalizedFilter = filter.toLowerCase();
+
+  return allTodos.filter((todo) =>
+    todo.text.toLowerCase().includes(normalizedFilter)
+  );
+};
+
+// const mapStateToProps = (state) => {
+//   const { items, filter } = state.todos;
+//   const visibleTodos = getFilteredTodos(items, filter);
+
+//   return {
+//     todos: visibleTodos,
+//   }
+// };
+
 const mapStateToProps = (state) => ({
-  todos: state.todos.items,
+  todos: getFilteredTodos(state.todos.items, state.todos.filter),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onDeleteTodo: id => dispatch(actions.deleteTodo(id)),
-  toggleCompleted: id => dispatch(actions.toggleCompleted(id)),
+const mapDispatchToProps = (dispatch) => ({
+  onDeleteTodo: (id) => dispatch(actions.deleteTodo(id)),
+  toggleCompleted: (id) => dispatch(actions.toggleCompleted(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);

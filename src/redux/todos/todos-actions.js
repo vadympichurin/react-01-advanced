@@ -21,4 +21,9 @@ const toggleCompleted = (todoId) => ({
     payload: todoId,
 });
 
-export default { addTodo, deleteTodo, toggleCompleted };
+const changeFilter = (value) => ({
+  type: actionTypes.CHANGE_FILTER,
+  payload: value,
+});
+
+export default { addTodo, deleteTodo, toggleCompleted, changeFilter };

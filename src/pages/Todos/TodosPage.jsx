@@ -16,9 +16,9 @@ class TodoPage extends Component {
     showModal: false,
   };
 
-  chnageFilter = (e) => {
-    this.setState({ filter: e.currentTarget.value });
-  };
+  // chnageFilter = (e) => {
+  //   this.setState({ filter: e.currentTarget.value });
+  // };
 
   getFilteredTodos = () => {
     const { todos, filter } = this.state;
@@ -44,7 +44,7 @@ class TodoPage extends Component {
     );
 
     const totalTodos = todos.length;
-    const filteredTodos = this.getFilteredTodos();
+    // const filteredTodos = this.getFilteredTodos();
 
     return (
       <>
@@ -74,7 +74,10 @@ class TodoPage extends Component {
         <br />
         <br />
 
-        <Filter value={filter} onChange={this.chnageFilter} />
+
+        {/* <Filter value={filter} onChange={this.chnageFilter} /> */}
+        <Filter />
+
         <br />
         <br />
 
