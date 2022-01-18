@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import todosActions from "../../redux/todos/todos-actions";
 
 const Filter = ({ value, onChange }) => {
-  console.log("value : ", value);
-
   return (
     <label>
       Фільтр за ім'ям
@@ -20,7 +18,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onChange: (event) => {
-    console.log(event.currentTarget.value);
     return dispatch(todosActions.changeFilter(event.currentTarget.value));
   },
 });
