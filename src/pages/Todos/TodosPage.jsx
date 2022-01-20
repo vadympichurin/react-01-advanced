@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import ToDoList from "../../components/TodoList/TodoList";
 import TodoEditor from "../../components/TodoEditor/TodoEditor";
@@ -6,8 +7,10 @@ import Filter from "../../components/Filter/Filter";
 import Modal from "../../components/Modal/Modal";
 import IconButton from "../../components/IconButton/IconButton";
 
-import { getTodos, deleteTodo, addTodo, updateTodo } from "../../utils/todoApi";
-import shortid from "shortid";
+import { getAllTodos } from '../../redux/todos/todos-operations';
+
+// import { getTodos, deleteTodo, addTodo, updateTodo } from "../../utils/todoApi";
+// import shortid from "shortid";
 
 class TodoPage extends Component {
   state = {
@@ -34,6 +37,10 @@ class TodoPage extends Component {
       showModal: !showModal,
     }));
   };
+
+  componentDidMount(){
+    this.props.fetchTodos();
+  }
 
   render() {
     const { todos, filter, showModal } = this.state;
@@ -81,10 +88,20 @@ class TodoPage extends Component {
         <br />
         <br />
 
+        {this.props.isLoadingTodos && <h1>Loading...</h1>  }
+
         <ToDoList />
       </>
     );
   }
-}
+};
 
-export default TodoPage;
+const mapStateToProps = state => ({
+  isLoadingTodos: state.todos.loading,
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetchTodos: () => dispatch(getAllTodos())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoPage);

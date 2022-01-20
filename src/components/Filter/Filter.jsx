@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import todosActions from "../../redux/todos/todos-actions";
+import { changeFilter } from "../../redux/todos/todos-actions";
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -18,7 +18,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onChange: (event) => {
-    return dispatch(todosActions.changeFilter(event.currentTarget.value));
+    return dispatch(changeFilter(event.currentTarget.value));
   },
 });
 

@@ -1,50 +1,16 @@
-import shortid from "shortid";
 import { createAction } from "@reduxjs/toolkit";
-import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3000";
+export const getTodosRequest = createAction("todos/getTodosRequest");
+export const getTodosSucces = createAction("todos/getTodosSucces");
+export const getTodosError = createAction("todos/getTodosError");
+export const addTodoRequest = createAction("todos/addTodoRequest");
+export const addTodoSucces = createAction("todos/addTodoSucces");
+export const addTodoError = createAction("todos/addTodoError");
+export const deleteTodoRequest = createAction("todos/deleteTodoRequest");
+export const deleteTodoSucces = createAction("todos/deleteTodoSucces");
+export const deleteTodoError = createAction("todos/deleteTodoError");
+export const toggleTodoRequest = createAction("todos/toggleTodoRequest");
+export const toggleTodoSucces = createAction("todos/toggleTodoSucces");
+export const toggleTodoError = createAction("todos/toggleTodoError");
 
-// const asyncActionCreator = args => dispatch => {
-//   fetch(args).then(x => dispatch(someAction(x))).catch(error => dispatch(errorAction(error)))
-// }
-
-const addTodo = (text) => (dispatch) => {
-  const todo = { text, completed: false };
-
-  dispatch({ type: "todos/addTodoRequest" });
-
-  axios
-    .post("/todos", todo)
-    .then(({ data }) =>
-      dispatch({ type: "todos/addTodoSucces", payload: data })
-    )
-    .catch((error) => dispatch({ type: "todos/addTodoError", payload: error }));
-};
-
-const addTodoRequest = createAction("todos/addTodoRequest");
-const addTodoSucces = createAction("todos/addTodoSucces");
-const addTodoError = createAction("todos/addTodoError");
-
-// const addTodo = createAction('todos/addTodo', (text) => {
-//   return {
-//     payload: {
-//       id: shortid.generate(),
-//       text,
-//       completed: false,
-//     },
-//   }
-// });
-
-const deleteTodo = createAction("todos/delete");
-const toggleCompleted = createAction("todos/toggleCompleted");
-const changeFilter = createAction("todos/changeFilter");
-
-export default {
-  addTodo,
-  addTodoRequest,
-  addTodoSucces,
-  addTodoError,
-  deleteTodo,
-  toggleCompleted,
-  changeFilter,
-};
+export const changeFilter = createAction("todos/changeFilter");
