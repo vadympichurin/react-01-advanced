@@ -8,28 +8,14 @@ import Modal from "../../components/Modal/Modal";
 import IconButton from "../../components/IconButton/IconButton";
 
 import { getAllTodos } from '../../redux/todos/todos-operations';
-
-// import { getTodos, deleteTodo, addTodo, updateTodo } from "../../utils/todoApi";
-// import shortid from "shortid";
+import todosSelectors from '../../redux/todos/todos-selectors';
+import CounterButton from '../../components/TodoList/CounterButton';
 
 class TodoPage extends Component {
   state = {
     todos: [],
     filter: "",
     showModal: false,
-  };
-
-  // chnageFilter = (e) => {
-  //   this.setState({ filter: e.currentTarget.value });
-  // };
-
-  getFilteredTodos = () => {
-    const { todos, filter } = this.state;
-    const normalizedFilter = filter.toLowerCase();
-
-    return todos.filter((todo) =>
-      todo.text.toLowerCase().includes(normalizedFilter)
-    );
   };
 
   toggleModal = () => {
@@ -43,7 +29,7 @@ class TodoPage extends Component {
   }
 
   render() {
-    const { todos, filter, showModal } = this.state;
+    const { todos, showModal } = this.state;
 
     const completedTodos = todos.reduce(
       (acc, todo) => (todo.completed ? acc + 1 : acc),
@@ -51,7 +37,6 @@ class TodoPage extends Component {
     );
 
     const totalTodos = todos.length;
-    // const filteredTodos = this.getFilteredTodos();
 
     return (
       <>
@@ -79,10 +64,9 @@ class TodoPage extends Component {
 
         <br />
         <br />
-        <br />
 
+        <CounterButton />
 
-        {/* <Filter value={filter} onChange={this.chnageFilter} /> */}
         <Filter />
 
         <br />
@@ -97,7 +81,7 @@ class TodoPage extends Component {
 };
 
 const mapStateToProps = state => ({
-  isLoadingTodos: state.todos.loading,
+  isLoadingTodos: todosSelectors.getTodosLoading(state),
 })
 
 const mapDispatchToProps = dispatch => ({

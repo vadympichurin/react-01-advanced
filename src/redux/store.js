@@ -1,11 +1,12 @@
 import { combineReducers } from "redux";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import logger from "redux-logger";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+// import logger from "redux-logger";
+// import { persistStore, persistReducer } from "redux-persist";
+// import storage from "redux-persist/lib/storage";
 
-import counterReducer from "./counter/counter-reducer";
+// import counterReducer from "./counter/counter-reducer";
 import todosReducer from "./todos/todos-reducer";
+import counterReducer from './todos/counter';
 
 // const myMiddleware = (store) => (next) => (action) => {
 //   console.log("my middleware : ", action);
@@ -21,17 +22,22 @@ import todosReducer from "./todos/todos-reducer";
 //   }
 // }
 
-const persistConfig = {
-  key: "todos",
-  storage,
-  blacklist: ['filter', 'loading'],
-};
+// const persistConfig = {
+//   key: "todos",
+//   storage,
+//   blacklist: ["filter", "loading"],
+// };
 
-const middleware = [...getDefaultMiddleware(), logger];
+const middleware = [
+  ...getDefaultMiddleware(), 
+  // logger
+];
 
 const rootReducer = combineReducers({
+  // counter: counterReducer,
+  // todos: persistReducer(persistConfig, todosReducer),
+  todos: todosReducer,
   counter: counterReducer,
-  todos: persistReducer(persistConfig, todosReducer),
 });
 
 const store = configureStore({
@@ -40,6 +46,7 @@ const store = configureStore({
   middleware: middleware,
 });
 
-const persistor = persistStore(store);
+// const persistor = persistStore(store);
 
-export default { store, persistor };
+// export default { store, persistor };
+export default store;

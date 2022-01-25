@@ -7,7 +7,6 @@ import CounterView from "./pages/CounterView";
 import TodosPage from './pages/Todos/TodosPage';
 
 import "./styles/base.css";
-import TodoPage from "./pages/Todos/TodosPage";
 
 const Home = lazy(() => import("./pages/Home" /* webpackChunkName: 'home-page' */));
 const Books = lazy(() => import("./pages/Books" /* webpackChunkName: 'books-page' */));
@@ -45,5 +44,3 @@ class App extends Component {
 }
 
 export default App;
-
-//   http://localhost:3001/

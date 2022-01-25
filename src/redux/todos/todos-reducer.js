@@ -17,8 +17,6 @@ import {
   getTodosError,
 } from "./todos-actions";
 
-import actionTypes from "./todos-types";
-
 const items = createReducer([], {
   [getTodosSucces]: (_, action) => action.payload,
   [addTodoSucces]: (state, action) => [action.payload, ...state],

@@ -2,12 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Todo from "../Todo/Todo";
-// import actions from "../../redux/todos/todos-actions";
 import { deleteTodo, toggleTodo } from "../../redux/todos/todos-operations";
+import todosSelectors from "../../redux/todos/todos-selectors";
 
 import "./TodoList.css";
 
-const ToDoList = ({ todos, onDeleteTodo, toggleCompleted }) => (
+const ToDoList = ({ todos, onDeleteTodo, toggleCompleted }) => console.log('TodoList re-render!!!') || (
   <ul className="TodoList">
     {todos?.map(({ id, text, completed }) => (
       <li key={id} className="TodoList__item">
@@ -25,25 +25,8 @@ const ToDoList = ({ todos, onDeleteTodo, toggleCompleted }) => (
   </ul>
 );
 
-const getFilteredTodos = (allTodos, filter) => {
-  const normalizedFilter = filter.toLowerCase();
-
-  return allTodos.filter((todo) =>
-    todo.text.toLowerCase().includes(normalizedFilter)
-  );
-};
-
-// const mapStateToProps = (state) => {
-//   const { items, filter } = state.todos;
-//   const visibleTodos = getFilteredTodos(items, filter);
-
-//   return {
-//     todos: visibleTodos,
-//   }
-// };
-
 const mapStateToProps = (state) => ({
-  todos: getFilteredTodos(state.todos.items, state.todos.filter),
+  todos: todosSelectors.getFilteredTodos(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
