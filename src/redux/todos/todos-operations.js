@@ -1,69 +1,72 @@
-import axios from "axios";
-
+import axios from 'axios';
 import {
   addTodoRequest,
-  addTodoSucces,
+  addTodoSuccess,
   addTodoError,
   deleteTodoRequest,
-  deleteTodoSucces,
+  deleteTodoSuccess,
   deleteTodoError,
-  toggleTodoRequest,
-  toggleTodoSucces,
-  toggleTodoError,
-  getTodosRequest,
-  getTodosSucces,
-  getTodosError,
-} from "./todos-actions";
+  toggleCompletedRequest,
+  toggleCompletedSuccess,
+  toggleCompletedError,
+  fetchTodosRequest,
+  fetchTodosSuccess,
+  fetchTodosError,
+} from './todos-actions';
 
-axios.defaults.baseURL = "http://localhost:4040";
-
-// const asyncActionCreator = args => dispatch => {
-//   fetch(args).then(x => dispatch(someAction(x))).catch(error => dispatch(errorAction(error)))
-// }
-
-export const getAllTodos = () => async (dispatch) => {
-  dispatch(getTodosRequest());
+// GET @ /tasks
+const fetchTodos = () => async dispatch => {
+  dispatch(fetchTodosRequest());
 
   try {
-    const { data } = await axios.get("/todos");
-    dispatch(getTodosSucces(data));
-  } catch (error) {
-    dispatch(getTodosError(error));
-  }
+    const { data } = await axios.get('/contacts');
 
-  //   axios
-  //     .get("/todos")
-  //     .then(({ data }) => dispatch(getTodosSucces(data)))
-  //     .catch((error) => dispatch(getTodosError(error)));
+    dispatch(fetchTodosSuccess(data));
+  } catch (error) {
+    dispatch(fetchTodosError(error.message));
+  }
 };
 
-export const addTodo = (text) => (dispatch) => {
-  const todo = { text, completed: false };
+// POST @ /tasks
+const addTodo = description => dispatch => {
+  const todo = {
+    description,
+    completed: false,
+  };
 
   dispatch(addTodoRequest());
 
   axios
-    .post("/todos", todo)
-    .then(({ data }) => dispatch(addTodoSucces(data)))
-    .catch((error) => dispatch(addTodoError(error)));
+    .post('/contacts', todo)
+    .then(({ data }) => dispatch(addTodoSuccess(data)))
+    .catch(error => dispatch(addTodoError(error.message)));
 };
 
-export const deleteTodo = (todoID) => (dispatch) => {
+// DELETE @ /tasks/:id
+const deleteTodo = todoId => dispatch => {
   dispatch(deleteTodoRequest());
 
   axios
-    .delete(`/todos/${todoID}`)
-    .then(() => dispatch(deleteTodoSucces(todoID)))
-    .catch((error) => dispatch(deleteTodoError(error)));
+    .delete(`/contacts/${todoId}`)
+    .then(() => dispatch(deleteTodoSuccess(todoId)))
+    .catch(error => dispatch(deleteTodoError(error.message)));
 };
 
-export const toggleTodo = ({ id, completed }) => (dispatch) => {
-  dispatch(toggleTodoRequest());
-
+// PATCH @ /tasks/:id
+const toggleCompleted = ({ id, completed }) => dispatch => {
   const update = { completed };
 
+  dispatch(toggleCompletedRequest());
+
   axios
-    .patch(`/todos/${id}`, update)
-    .then(({ data }) => dispatch(toggleTodoSucces(data)))
-    .catch((error) => dispatch(toggleTodoError(error)));
+    .patch(`/contacts/${id}`, update)
+    .then(({ data }) => dispatch(toggleCompletedSuccess(data)))
+    .catch(error => dispatch(toggleCompletedError(error.message)));
+};
+
+export default {
+  fetchTodos,
+  addTodo,
+  deleteTodo,
+  toggleCompleted,
 };

@@ -1,33 +1,54 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector } from '@reduxjs/toolkit';
 
-const getTodosLoading = (state) => state.todos.loading;
-const getTodosFilter = (state) => state.todos.filter;
-const getTodos = (state) => state.todos.items;
+const getLoading = state => state.todos.loading;
 
-// const getFilteredTodos = (state) => {
-//   const filter = getTodosFilter(state);
-//   const todos = getTodos(state);
-//   const normalizedFilter = filter.toLowerCase();
+const getFilter = state => state.todos.filter;
 
-//   return todos.filter((todo) =>
-//     todo.text.toLowerCase().includes(normalizedFilter)
-//   );
-// };
+const getAllTodos = state => state.todos.items;
 
-const getFilteredTodos = createSelector(
-  [getTodosFilter, getTodos],
-  (filter, todos) => {
-    console.log("getFilteredTodos !!!!!");
+const getTotalTodoCount = state => {
+  const todos = getAllTodos(state);
+
+  return todos.length;
+};
+
+const getCompletedTodoCount = createSelector([getAllTodos], todos => {
+  console.log('Высчитываю новое колво комплитед тудуз');
+  return todos.reduce((total, todo) => (todo.completed ? total + 1 : total), 0);
+});
+
+const getVisibleTodos = createSelector(
+  [getAllTodos, getFilter],
+  (todos, filter) => {
+    console.log('Составляю новый массив видимых туду');
     const normalizedFilter = filter.toLowerCase();
 
-    return todos.filter((todo) =>
-      todo.text.toLowerCase().includes(normalizedFilter)
+    return todos.filter(({ description }) =>
+      description.toLowerCase().includes(normalizedFilter),
     );
-  }
+  },
 );
 
 export default {
-  getTodosLoading,
-  getTodosFilter,
-  getFilteredTodos,
+  getLoading,
+  getFilter,
+  getVisibleTodos,
+  getTotalTodoCount,
+  getCompletedTodoCount,
 };
+
+// const getCompletedTodosCount = state => {
+//   const todos = getAllTodos(state);
+
+//   return todos.reduce((total, todo) => (todo.completed ? total + 1 : total), 0);
+// };
+
+// const getVisibleTodos = state => {
+//   const todos = getAllTodos(state);
+//   const filter = getFilter(state);
+//   const normalizedFilter = filter.toLowerCase();
+
+//   return todos.filter(({ text }) =>
+//     text.toLowerCase().includes(normalizedFilter),
+//   );
+// };

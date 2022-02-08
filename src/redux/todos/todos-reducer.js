@@ -1,54 +1,54 @@
-import { combineReducers } from "redux";
-import { createReducer } from "@reduxjs/toolkit";
-
+import { combineReducers } from 'redux';
+import { createReducer } from '@reduxjs/toolkit';
 import {
   addTodoRequest,
-  addTodoSucces,
+  addTodoSuccess,
   addTodoError,
   deleteTodoRequest,
-  deleteTodoSucces,
+  deleteTodoSuccess,
   deleteTodoError,
-  toggleTodoRequest,
-  toggleTodoSucces,
-  toggleTodoError,
   changeFilter,
-  getTodosRequest,
-  getTodosSucces,
-  getTodosError,
-} from "./todos-actions";
+  toggleCompletedRequest,
+  toggleCompletedSuccess,
+  toggleCompletedError,
+  fetchTodosRequest,
+  fetchTodosSuccess,
+  fetchTodosError,
+} from './todos-actions';
 
 const items = createReducer([], {
-  [getTodosSucces]: (_, action) => action.payload,
-  [addTodoSucces]: (state, action) => [action.payload, ...state],
-  [deleteTodoSucces]: (state, action) =>
-    state.filter(({ id }) => id !== action.payload),
-  [toggleTodoSucces]: (state, action) =>
-    state.map((todo) =>
-      todo.id === action.payload.id ? action.payload : todo
-    ),
+  [fetchTodosSuccess]: (_, { payload }) => payload,
+  [addTodoSuccess]: (state, { payload }) => [...state, payload],
+  [deleteTodoSuccess]: (state, { payload }) =>
+    state.filter(({ id }) => id !== payload),
+  [toggleCompletedSuccess]: (state, { payload }) =>
+    state.map(todo => (todo.id === payload.id ? payload : todo)),
 });
 
 const loading = createReducer(false, {
-  [getTodosRequest]: () => true,
-  [getTodosSucces]: () => false,
-  [getTodosError]: () => false,
+  [fetchTodosRequest]: () => true,
+  [fetchTodosSuccess]: () => false,
+  [fetchTodosError]: () => false,
   [addTodoRequest]: () => true,
-  [addTodoSucces]: () => false,
+  [addTodoSuccess]: () => false,
   [addTodoError]: () => false,
   [deleteTodoRequest]: () => true,
-  [deleteTodoSucces]: () => false,
+  [deleteTodoSuccess]: () => false,
   [deleteTodoError]: () => false,
-  [toggleTodoRequest]: () => true,
-  [toggleTodoSucces]: () => false,
-  [toggleTodoError]: () => false,
+  [toggleCompletedRequest]: () => true,
+  [toggleCompletedSuccess]: () => false,
+  [toggleCompletedError]: () => false,
 });
 
 const filter = createReducer('', {
   [changeFilter]: (_, { payload }) => payload,
-})
+});
+
+const error = createReducer(null, {});
 
 export default combineReducers({
   items,
   filter,
   loading,
+  error,
 });

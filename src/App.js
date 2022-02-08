@@ -1,46 +1,59 @@
-import React, { Component, Suspense, lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { Component, Suspense, lazy } from 'react';
+import { Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import AppBar from './components/AppBar';
+import Container from './components/Container';
+import { authOperations } from './redux/auth';
 
-import Header from "./components/Header";
-import routes from "./utils/routes";
-import CounterView from "./pages/CounterView";
-import TodosPage from './pages/Todos/TodosPage';
+import PrivateRoute from './utils/PrivateRoute';
+import PublicRoute from './utils/PublicRoute';
 
-import "./styles/base.css";
-
-const Home = lazy(() => import("./pages/Home" /* webpackChunkName: 'home-page' */));
-const Books = lazy(() => import("./pages/Books" /* webpackChunkName: 'books-page' */));
-const BookDetails = lazy(() => import("./pages/BookDetails" /* webpackChunkName: 'book-details-page' */));
-const Authors = lazy(() => import("./pages/Authors" /* webpackChunkName: 'authors-page' */));
-const AuthorBooks = lazy(() => import("./components/AuthorBooks" /* webpackChunkName: 'author-books-component' */));
-const NotFound = lazy(() => import("./pages/NotFound" /* webpackChunkName: 'not-found-page' */));
+const HomeView = lazy(() => import('./views/HomeView'));
+const TodosView = lazy(() => import('./views/TodosView'));
+const RegisterView = lazy(() => import('./views/RegisterView'));
+const LoginView = lazy(() => import('./views/LoginView'));
 
 class App extends Component {
   state = {};
 
+  componentDidMount() {
+    this.props.onGetCurrentUser();
+  }
+
   render() {
-    const { home, books, bookDetails, authors, authorBooks, counter, todos } = routes;
-
     return (
-      <>
-        <Header />
+      <Container>
+        <AppBar />
 
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <Routes>
-            <Route path={home} element={<Home />} />
-            <Route path={books} element={<Books />} />
-            <Route path={bookDetails} element={<BookDetails />} />
-            <Route path={authors} element={<Authors />}>
-              <Route path={authorBooks} element={<AuthorBooks />} />
-            </Route>
-            <Route path={counter} element={<CounterView />} />
-            <Route path={todos} element={<TodosPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+        <Suspense fallback={<h3>Loading...</h3>}>
+          <Switch>
+            <PublicRoute exact path="/" component={HomeView} />
+            <PublicRoute
+              path="/register"
+              component={RegisterView}
+              redirectTo="/todos"
+              restricted
+            />
+            <PublicRoute
+              redirectTo="/todos"
+              path="/login"
+              component={LoginView}
+              restricted
+            />
+            <PrivateRoute
+              path="/todos"
+              component={TodosView}
+              redirectTo="/login"
+            />
+          </Switch>
         </Suspense>
-      </>
+      </Container>
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = {
+  onGetCurrentUser: authOperations.getCurrentUser,
+};
+
+export default connect(null, mapDispatchToProps)(App);
