@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Container from '../components/Container';
 import TodoList from '../components/TodoList';
 import TodoEditor from '../components/TodoEditor';
@@ -16,54 +16,92 @@ const barStyles = {
   marginBottom: 20,
 };
 
-class TodosView extends Component {
-  state = {
-    showModal: false,
+const TodosView = () => {
+  const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  const isLoadingTodos = useSelector(todosSelectors.getLoading);
+
+  const toggleModal = () => {
+    setShowModal(showModal => !showModal);
   };
 
-  componentDidMount() {
-    this.props.fetchTodos();
-  }
+  useEffect(() => {
+    dispatch(todosOperations.fetchTodos());
+  }, [dispatch]);
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
+  return (
+    <Container>
+      <div style={barStyles}>
+        <Filter />
+        <Stats />
+        <IconButton onClick={toggleModal} aria-label="Добавить todo">
+          <AddIcon width="40" height="40" fill="#fff" />
+        </IconButton>
 
-  render() {
-    const { showModal } = this.state;
+        {isLoadingTodos && <h1>Загружаем...</h1>}
+      </div>
 
-    return (
-      <Container>
-        <div style={barStyles}>
-          <Filter />
-          <Stats />
-          <IconButton onClick={this.toggleModal} aria-label="Добавить todo">
-            <AddIcon width="40" height="40" fill="#fff" />
-          </IconButton>
+      <TodoList />
 
-          {this.props.isLoadingTodos && <h1>Загружаем...</h1>}
-        </div>
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          <TodoEditor onSave={toggleModal} />
+        </Modal>
+      )}
+    </Container>
+  );
+};
 
-        <TodoList />
+export default TodosView;
 
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <TodoEditor onSave={this.toggleModal} />
-          </Modal>
-        )}
-      </Container>
-    );
-  }
-}
+// class TodosView extends Component {
+//   state = {
+//     showModal: false,
+//   };
 
-const mapStateToProps = state => ({
-  isLoadingTodos: todosSelectors.getLoading(state),
-});
+//   componentDidMount() {
+//     this.props.fetchTodos();
+//   }
 
-const mapDispatchToProps = dispatch => ({
-  fetchTodos: () => dispatch(todosOperations.fetchTodos()),
-});
+// toggleModal = () => {
+//   this.setState(({ showModal }) => ({
+//     showModal: !showModal,
+//   }));
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodosView);
+//   render() {
+//     const { showModal } = this.state;
+
+//     return (
+//       <Container>
+//         <div style={barStyles}>
+//           <Filter />
+//           <Stats />
+//           <IconButton onClick={this.toggleModal} aria-label="Добавить todo">
+//             <AddIcon width="40" height="40" fill="#fff" />
+//           </IconButton>
+
+//           {this.props.isLoadingTodos && <h1>Загружаем...</h1>}
+//         </div>
+
+//         <TodoList />
+
+//         {showModal && (
+//           <Modal onClose={this.toggleModal}>
+//             <TodoEditor onSave={this.toggleModal} />
+//           </Modal>
+//         )}
+//       </Container>
+//     );
+//   }
+// }
+
+// const mapStateToProps = state => ({
+//   isLoadingTodos: todosSelectors.getLoading(state),
+// });
+
+// const mapDispatchToProps = dispatch => ({
+//   fetchTodos: () => dispatch(todosOperations.fetchTodos()),
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(TodosView);
